@@ -15,13 +15,13 @@ export class UserController {
     }
 
     @Get()
-    // @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard)
     public getUser() {
         return this.userService.getUsers();
     }
 
     @Post()
-    // @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard)
     public async postUser(@Body() user: UserDto) {
         return this.userService.postUser(user)
     }
@@ -33,14 +33,14 @@ export class UserController {
     }
 
     @Delete(':id')
-    // @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard)
     public async deleteById(@Param('id') id: number) {
         console.log(id,'id ivda ethi')
         this.userService.deleteById(id)
     }
 
     @Put(':id')
-    // @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard)
     public async updateUser(@Param('id') id: number, @Body() body: any) {
         return this.userService.updateUser({ id, properties: body });
     }
