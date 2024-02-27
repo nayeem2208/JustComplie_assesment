@@ -15,35 +15,35 @@ export class UserController {
     }
 
     @Get()
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     public getUser() {
         return this.userService.getUsers();
     }
 
     @Post()
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     public async postUser(@Body() user: UserDto) {
         return this.userService.postUser(user)
     }
 
     @Get(':id')
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     public async getUserbyId(@Param('id') id: number) {
         return this.userService.getUserById(id)
     }
 
     @Delete(':id')
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     public async deleteById(@Param('id') id: number) {
+        console.log(id,'id ivda ethi')
         this.userService.deleteById(id)
     }
 
     @Put(':id')
-    @UseGuards(JwtAuthGuard)
-    public async updateUser(@Param('id') id: number, @Query() query) {
-        let propertyName = query.propertyName
-        let propertyValue = query.propertyValue
-        return this.userService.updateUser(id, propertyName, propertyValue)
+    // @UseGuards(JwtAuthGuard)
+    public async updateUser(@Param('id') id: number, @Body() body: any) {
+        return this.userService.updateUser({ id, properties: body });
     }
+    
 
 }

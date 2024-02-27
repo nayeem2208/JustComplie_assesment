@@ -5,6 +5,11 @@ import { IUser } from './interface/user.interface';
 import { UserDto } from './user.dto';
 import { IAdmin } from './interface/admin.interface';
 
+interface UpdateUserData {
+    id: number;
+    properties: Record<string, string>;
+  }
+
 @Injectable()
 export class UserService {
     constructor(
@@ -28,6 +33,11 @@ export class UserService {
     }
 
     public async postUser(newUser: UserDto) {
+        console.log(newUser,'newuser')
+        let userExist=await this.userModal.find({id:newUser.id})
+        if(userExist.length>0){
+            throw new HttpException('User already Exist',401)
+        }
         let user = await new this.userModal(newUser)
         return user.save()
     }
@@ -48,10 +58,10 @@ export class UserService {
         return user
     }
 
-    public async updateUser(id: number, propertyName: string, propertyValue: string): Promise<UserDto> {
-        const updateQuery = { $set: { [propertyName]: propertyValue } };
+    public async updateUser(updateUserData: UpdateUserData): Promise<UserDto> {
+        const { id, properties } = updateUserData;
+        const updateQuery = { $set:{ name:properties.newName,age:properties.newage,place:properties.newplace }};
         const options = { new: true };
-
         const user = await this.userModal.findOneAndUpdate({ id }, updateQuery, options).exec();
 
         if (!user) {

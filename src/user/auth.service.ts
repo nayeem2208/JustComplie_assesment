@@ -15,7 +15,6 @@ export class AuthService {
     const admin = await this.userService.getUserByUsername(username);
     if (admin[0] && admin[0].password == password) {
       const payload = { username: admin[0].username, sub: admin[0]._id};
-      console.log(payload,'payload')
       return {
         access_token: this.jwtService.sign(payload),
       };
